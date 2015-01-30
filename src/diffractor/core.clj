@@ -36,12 +36,12 @@
    :player2-start
    :player2-build
    :player2-commit-attack
-   ; if we have attack >= defense, then we "breach", which wipes out oppenent defense
    :player2-breach
-   ; for clearing out transient resources
    :player2-end-turn
    :player1-defend
    ])
+(def next-phase (apply assoc {} (interleave phases
+                                         (concat (rest phases) (list (first phases))))))
 
 (defn load-scenario []
   (let [scenario-data (clojure.walk/keywordize-keys
