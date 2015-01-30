@@ -1,0 +1,40 @@
+{
+  "buildable_units" : {
+    "_comment" : "Available Units for Purchase",
+    "units" : [
+    ]
+  },
+
+  "phase" : "player1-start",
+
+  "player1" : {
+    "_comment" : "Player 1 / Bottom Board / Human",
+
+    "resources" : {
+      "green" : 1
+    },
+
+    "units" : [
+      "Wall",
+      "Forcefield",
+      "Engineer",
+
+      "Tarsier"
+    ]
+  },
+  "player2" : {
+    "_comment" : "Player 2 / Top Board / CPU",
+
+    "resources" : {
+      "green" : 1
+    },
+
+    "units" : [
+      "Tarsier",
+      "Tarsier",
+      "Tarsier",
+      "Tarsier",
+      "Tarsier"
+    ]
+  }
+}

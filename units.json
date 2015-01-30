@@ -1,0 +1,33 @@
+[
+  {
+    "name" : "Tarsier",
+    "hp" : 1,
+    "fragile" : false,
+    "attack" : 1,
+    "can_block" : false
+  },
+
+  {
+    "name" : "Wall",
+    "hp" : 3,
+    "fragile" : false,
+    "attack" : 0,
+    "can_block" : true
+  },
+
+  {
+    "name" : "Forcefield",
+    "hp" : 2,
+    "fragile" : true,
+    "attack" : 0,
+    "can_block" : true
+  },
+
+  {
+    "name" : "Engineer",
+    "hp" : 1,
+    "fragile" : false,
+    "attack" : 0,
+    "can_block" : true
+  }
+]
