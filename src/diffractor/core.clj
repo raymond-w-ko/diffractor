@@ -49,41 +49,49 @@
         resources2 (:resources player2)
         units1 (map #(get units-database %) (:units player1))
         units2 (map #(get units-database %) (:units player2))]
+    ^{:parent nil}
     {:current_player (:current_player scenario-data)
-     :parent nil
+     :phase (keyword (:phase scenario-data))
      1 {:resources resources1, :units units1}
      2 {:resources resources2, :units units2}}))
 
 ; TODO: implement resource generation
 (defn expand-start-phase [parent-board]
-  (let [board (into parent-board {:parent parent-board, :phase :build})]
+  (let [board (into parent-board {:phase :build})
+        board (with-meta board {:parent parent-board})]
     (list board)))
 
 ; TODO: implement the over 9000 click actions
 (defn expand-build-phase [parent-board]
-  (let [board (into parent-board {:parent parent-board, :phase :attack})]
+  (let [board (into parent-board {:phase :attack})
+        board (with-meta board {:parent parent-board})]
   (list board)))
 
 (defn expand-attack-phase [parent-board]
   (let [attack (count-attack parent-board)
         defense (count-defense parent-board)
         board (into parent-board
-                    {:parent parent-board,
-                     :phase :breach
+                    { :phase :breach
                      :attack attack
                      :defense defense
-                     :breach_left (- attack defense)})]
+                     :breach_left (- attack defense)})
+        board (with-meta board {:parent parent-board})]
     (list board)))
 
-(def expand-breach-phase [parent-board]
-  (if (< 0 (:breach_left parent-board))
-    ; no breach
-    (list (into parent-board {:phase :defend}))
-    ; breach
-    (let [board (kill-breached-defense parent-board)
-          defender-units (get-defender-units parent-board)
-          breachable-units (filter #(%1 %2) defender-units)
-          ])))
+(defn expand-breach-phase [parent-board]
+  (let [breach-damage (:breach_left parent-board)]
+    (if (< breach-damage 0)
+      ; no breach
+      (list (into parent-board {:phase :defend}))
+      ; breach
+      (let [board (kill-breached-defense parent-board)
+            defender-units (get-defender-units parent-board)
+            breachable-units (get-breachable-units defender-units breach-damage)
+            ]
+        (list (into parent-board {:phase :defend}))))))
+
+(defn expand-defend-phase [parent-board]
+  )
 
 (def phase-expander
   {:start expand-start-phase
@@ -98,15 +106,10 @@
         expander-fn (get phase-expander phase)]
     (if (nil? expander-fn)
       boards
-      (recur (mapcat boards expander-fn)))))
+      (recur (mapcat expander-fn boards)))))
 
 (defn -main
   [& args]
   (load-units-database)
-  (let [initial-board (list (load-scenario))]
-    ;(pprint initial-board)
-    ;(count-attack initial-board)
-    ;(count-defense initial-board)
-    ;(pprint (expand-start-phase initial-board))
-    (expander initial-board)
-    ))
+  (let [initial-boards (list (load-scenario))]
+    (doall (expander initial-boards))))
