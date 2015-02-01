@@ -6,7 +6,7 @@
   },
 
   "phase" : "start",
-  "current_player" : 1,
+  "current-player" : 1,
 
   "player1" : {
     "_comment" : "Player 1 / Bottom Board / Human",

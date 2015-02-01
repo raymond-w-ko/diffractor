@@ -24,15 +24,22 @@
 
 (defn count-defense [board]
   (let [defender-units (get-defender-units board)]
-    (reduce #(+ %1 (if (= true (:can_block %2)) (:hp %2) 0))
+    (reduce #(+ %1 (if (= true (:is_blocking %2)) (:hp %2) 0))
             0
             defender-units)))
+
+;;; given a set of units and breach damage number, return a seq (list) of
+;;; possible units that can remain
+;;; for example, given [Drone, Tarsier], 1 as input
+;;; returns [Drone], [Tarsier] as possible results
+(defn generate-breaching-possibilities [units breach-damage]
+  )
 
 ; "mutating" functions
 (defn kill-breached-defense [board]
   (let [player-number (get-defending-player-number board)
         units (get-defender-units board)
-        remaining-units (remove #((true? :can_block %)) units)]
+        remaining-units (remove #((true? :is_blocking %)) units)]
     (assoc-in board [player-number :units] remaining-units)))
 
 (defn get-breachable-units [units breach-damage]

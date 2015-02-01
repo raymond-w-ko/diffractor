@@ -16,6 +16,14 @@
     ;(pprint data)
     ))
 
+(defn construct-unit [data]
+  {:post [%]}
+  (if (= (type data) java.lang.String)
+    (get units-database data)
+    (let [unit-name (:name data)
+          unit (get units-database unit-name)]
+      (into unit data))))
+
 (def phases
   [
    ; defend against previous player
@@ -47,10 +55,10 @@
         player2 (:player2 scenario-data)
         resources1 (:resources player1)
         resources2 (:resources player2)
-        units1 (map #(get units-database %) (:units player1))
-        units2 (map #(get units-database %) (:units player2))]
+        units1 (map #(construct-unit %) (:units player1))
+        units2 (map #(construct-unit %) (:units player2))]
     ^{:parent nil}
-    {:current_player (:current_player scenario-data)
+    {:current-player (:current-player scenario-data)
      :phase (keyword (:phase scenario-data))
      1 {:resources resources1, :units units1}
      2 {:resources resources2, :units units2}}))
@@ -112,4 +120,5 @@
   [& args]
   (load-units-database)
   (let [initial-boards (list (load-scenario))]
+    (pprint initial-boards)
     (doall (expander initial-boards))))

@@ -4,7 +4,7 @@
     "hp" : 1,
     "fragile" : false,
     "attack" : 1,
-    "can_block" : false
+    "is_blocking" : false
   },
 
   {
@@ -12,7 +12,8 @@
     "hp" : 3,
     "fragile" : false,
     "attack" : 0,
-    "can_block" : true
+    "is_blocking" : true,
+    "cost" : { "gold" : 5, "blue" : 1 }
   },
 
   {
@@ -20,7 +21,7 @@
     "hp" : 2,
     "fragile" : true,
     "attack" : 0,
-    "can_block" : true
+    "is_blocking" : true
   },
 
   {
@@ -28,6 +29,26 @@
     "hp" : 1,
     "fragile" : false,
     "attack" : 0,
-    "can_block" : true
+    "is_blocking" : true,
+    "cost" : { "gold" : 2, "blue" : 0 }
+  },
+
+  {
+    "name" : "Blastforge",
+    "hp" : 3,
+    "fragile" : false,
+    "attack" : 0,
+    "is_blocking" : false,
+    "cost" : { "gold" : 5, "blue" : 0 }
+  },
+
+  {
+    "name" : "Doomsplitter",
+    "hp" : 4,
+    "fragile" : false,
+    "attack" : 1,
+    "is_blocking" : false,
+
+    "cost" : { "gold" : 5, "blue" : 0 }
   }
 ]
