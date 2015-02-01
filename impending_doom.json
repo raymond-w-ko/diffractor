@@ -1,0 +1,82 @@
+{
+  "buildable_units" : {
+    "_comment" : "Available Units for Purchase",
+    "units" : [
+      "Engineer",
+      "Blastforge",
+      "Wall",
+      "Doomsplitter",
+      "Doomed Wall",
+    ]
+  },
+
+  "phase" : "start",
+  "current-player" : 1,
+
+  "player1" : {
+    "_comment" : "Player 1 / Bottom Board / Human",
+
+    "resources" : {
+      "gold" : 0,
+      "blue" : 0
+    },
+
+    "units" : [
+      "Wall", "Wall", "Wall", "Wall", "Wall",
+      "Wall", "Wall",
+
+      "Drone", "Drone", "Drone", "Drone", "Drone", 
+      "Drone",
+
+      "Steelsplitter", "Steelsplitter",
+
+      { "name" : "Doomsplitter", "lifespan" : 4 },
+
+      "Blastforge",
+      
+      "Lunarch HQ"
+    ]
+  },
+  "player2" : {
+    "_comment" : "Player 2 / Top Board / CPU",
+
+    "resources" : {
+      "gold" : 0,
+      "blue" : 0
+    },
+
+    "units" : [
+      "Engineer", "Engineer", "Engineer", "Engineer", "Engineer", 
+      "Engineer", "Engineer",
+
+      "Wall", 
+
+      { "name" : "Doombot", "build-time" : 6 },
+      { "name" : "Doombot", "build-time" : 6 },
+      { "name" : "Doombot", "build-time" : 6 },
+
+      { "name" : "Doombot", "build-time" : 8 },
+      { "name" : "Doombot", "build-time" : 8 },
+      { "name" : "Doombot", "build-time" : 8 },
+
+      { "name" : "Doombot", "build-time" : 8 },
+      { "name" : "Doombot", "build-time" : 8 },
+      { "name" : "Doombot", "build-time" : 8 },
+
+      "Tarsier", "Tarsier", "Tarsier", "Tarsier", "Tarsier",
+
+      "Gunbot",
+      "Gunbot",
+      "Gunbot",
+      { "name" : "Gunbot", "build-time" : 5 },
+      { "name" : "Gunbot", "build-time" : 5 },
+      { "name" : "Gunbot", "build-time" : 5 },
+      { "name" : "Gunbot", "build-time" : 10 },
+
+      { "name" : "Grenade Mech", "build-time" : 10 },
+      { "name" : "Grenade Mech", "build-time" : 10 },
+      { "name" : "Grenade Mech", "build-time" : 10 },
+      { "name" : "Grenade Mech", "build-time" : 10 }
+    ]
+  }
+}
