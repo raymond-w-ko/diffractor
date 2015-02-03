@@ -79,12 +79,15 @@
   (let [attack (count-attack parent-board)
         defense (count-defense parent-board)
         board (into parent-board
-                    { :phase :breach
+                    {:phase :breach
                      :attack attack
                      :defense defense
                      :breach_left (- attack defense)})
         board (with-meta board {:parent parent-board})]
     (list board)))
+
+(defn simplify-units [units]
+  (map #(:name %) units))
 
 (defn expand-breach-phase [parent-board]
   (let [breach-damage (:breach_left parent-board)]
@@ -95,7 +98,12 @@
       (let [board (kill-breached-defense parent-board)
             defender-units (get-defender-units parent-board)
             breachable-units (get-breachable-units defender-units breach-damage)
+            ,
+            surviving-units-possibilities
+            (generate-breaching-possibilities breachable-units breach-damage)
+            ,
             ]
+        (pprint (map simplify-units surviving-units-possibilities))
         (list (into parent-board {:phase :defend}))))))
 
 (defn expand-defend-phase [parent-board]
@@ -110,6 +118,7 @@
    })
 
 (defn expander [boards]
+  ;(pprint boards)
   (let [phase (:phase (first boards))
         expander-fn (get phase-expander phase)]
     (if (nil? expander-fn)
@@ -120,5 +129,5 @@
   [& args]
   (load-units-database)
   (let [initial-boards (list (load-scenario))]
-    (pprint initial-boards)
+    ;(pprint initial-boards)
     (doall (expander initial-boards))))

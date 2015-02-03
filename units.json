@@ -8,6 +8,14 @@
   },
 
   {
+    "name" : "Shadowfang",
+    "hp" : 1,
+    "fragile" : false,
+    "attack" : 2,
+    "is_blocking" : false
+  },
+
+  {
     "name" : "Wall",
     "hp" : 3,
     "fragile" : false,
