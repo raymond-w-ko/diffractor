@@ -82,7 +82,7 @@
                     {:phase :breach
                      :attack attack
                      :defense defense
-                     :breach_left (- attack defense)})
+                     :breach-left (- attack defense)})
         board (with-meta board {:parent parent-board})]
     (list board)))
 
@@ -90,35 +90,60 @@
   (map #(:name %) units))
 
 (defn expand-breach-phase [parent-board]
-  (let [breach-damage (:breach_left parent-board)]
+  (let [breach-damage (:breach-left parent-board)]
     (if (< breach-damage 0)
       ; no breach
-      (list (into parent-board {:phase :defend}))
+      (list (into parent-board {:phase :defend
+                                :breach-left 0}))
       ; breach
       (let [board (kill-breached-defense parent-board)
+            defending-player-index (get-defending-player-index parent-board)
             defender-units (get-defender-units parent-board)
             breachable-units (get-breachable-units defender-units breach-damage)
             ,
             surviving-units-possibilities
             (generate-breaching-possibilities breachable-units breach-damage)
             ,
+            boards (map #(assoc-in parent-board [defending-player-index :units] %)
+                        surviving-units-possibilities)
             ]
-        (pprint (map simplify-units surviving-units-possibilities))
-        (list (into parent-board {:phase :defend}))))))
+        ;(pprint (map simplify-units surviving-units-possibilities))
+        ;(pprint boards)
+        (map #(into % {:phase :defend
+                       :breach-left 0 ; breach damage is spent
+                       :attack 0 ; attack must have been spent to breach
+                       :defense 0 ; defense must have been wiped out to breach
+                       })
+             boards)))))
 
 (defn expand-defend-phase [parent-board]
-  )
+  (let [defender-units (get-defender-units parent-board)
+        defending-player-index (get-defending-player-index parent-board)
+        attack-damage (:attack parent-board)
+        ,
+        surviving-units-possibilities
+        (generate-defense-possibilities defender-units attack-damage)
+        ,
+        boards (map #(assoc-in parent-board [defending-player-index :units] %)
+                    surviving-units-possibilities)
+        ]
+    (map #(into % {:phase :abort
+                   :attack 0 ; attack must have been spent to breach
+                   :defense 0 ; defense must have been wiped out to breach
+                   })
+         boards)))
 
 (def phase-expander
   {:start expand-start-phase
    :build expand-build-phase
    :attack expand-attack-phase
    :breach expand-breach-phase
-   :defend nil
+   :defend expand-defend-phase
+   :abort nil
    })
 
 (defn expander [boards]
-  ;(pprint boards)
+  (pprint boards)
   (let [phase (:phase (first boards))
         expander-fn (get phase-expander phase)]
     (if (nil? expander-fn)
@@ -130,4 +155,5 @@
   (load-units-database)
   (let [initial-boards (list (load-scenario))]
     ;(pprint initial-boards)
-    (doall (expander initial-boards))))
+    (doall (expander initial-boards))
+    "Rich Hickey's hair is awesome!"))

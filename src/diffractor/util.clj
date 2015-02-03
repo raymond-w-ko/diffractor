@@ -16,10 +16,10 @@
   (let [attacking-units (:units (get board (:current-player board)))]
     (reduce #(+ %1 (:attack %2)) 0 attacking-units)))
 
-(defn get-attacking-player-number [board]
+(defn get-attacking-player-index [board]
   (:current-player board))
 
-(defn get-defending-player-number [board]
+(defn get-defending-player-index [board]
   (if (= 1 (:current-player board))
     2
     1))
@@ -27,8 +27,13 @@
 (defn get-attacking-player [board]
   (get board (:current-player board)))
 
+(defn switch-player-turns [board]
+  (if (= 1 (get-attacking-player board))
+    (assoc board :current-player 2)
+    (assoc board :current-player 1)))
+
 (defn get-defending-player [board]
-  (get board (get-defending-player-number board)))
+  (get board (get-defending-player-index board)))
 
 (defn get-defender-units [board]
   (:units (get-defending-player board)))
@@ -60,12 +65,16 @@
           remaining-units-and-damage-list (map (kill-one-unit units breach-damage) killable-units)]
       (distinct (mapcat #(apply generate-breaching-possibilities %) remaining-units-and-damage-list)))))
 
+(defn generate-defense-possibilities [units attack-damage]
+  (if (= attack-damage 0)
+    (list units)))
+
 ; "mutating" functions
 (defn kill-breached-defense [board]
-  (let [player-number (get-defending-player-number board)
+  (let [player-index (get-defending-player-index board)
         units (get-defender-units board)
         remaining-units (remove #((true? :is_blocking %)) units)]
-    (assoc-in board [player-number :units] remaining-units)))
+    (assoc-in board [player-index :units] remaining-units)))
 
 (defn get-breachable-units [units breach-damage]
   (filter #(<= (:hp %) breach-damage) units))
