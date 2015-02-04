@@ -127,9 +127,10 @@
         boards (map #(assoc-in parent-board [defending-player-index :units] %)
                     surviving-units-possibilities)
         ]
-    (map #(into % {:phase :abort
+    (map #(into % {:phase :start
                    :attack 0 ; attack must have been spent to breach
                    :defense 0 ; defense must have been wiped out to breach
+                   :current-player (get-defending-player-index %)
                    })
          boards)))
 
@@ -139,21 +140,21 @@
    :attack expand-attack-phase
    :breach expand-breach-phase
    :defend expand-defend-phase
-   :abort nil
    })
 
 (defn expander [boards]
-  (print-boards boards)
   (let [phase (:phase (first boards))
         expander-fn (get phase-expander phase)]
     (if (nil? expander-fn)
       boards
-      (recur (mapcat expander-fn boards)))))
+      (mapcat expander-fn boards))))
 
 (defn -main
   [& args]
   (load-units-database)
-  (let [initial-boards (list (load-scenario))]
-    ;(pprint initial-boards)
-    (doall (expander initial-boards))
-    "Rich Hickey's hair is awesome!"))
+  (loop [depth 0
+         boards (list (load-scenario))]
+    (print-boards boards)
+    (when (< depth 10)
+      (recur (inc depth) (expander boards))))
+  )

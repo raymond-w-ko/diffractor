@@ -4,7 +4,7 @@
     "hp" : 1,
     "fragile" : false,
     "attack" : 1,
-    "is_blocking" : false
+    "blocking" : false
   },
 
   {
@@ -12,7 +12,7 @@
     "hp" : 1,
     "fragile" : false,
     "attack" : 2,
-    "is_blocking" : false
+    "blocking" : false
   },
 
   {
@@ -20,7 +20,7 @@
     "hp" : 3,
     "fragile" : false,
     "attack" : 0,
-    "is_blocking" : true,
+    "blocking" : true,
     "cost" : { "gold" : 5, "blue" : 1 }
   },
 
@@ -29,7 +29,7 @@
     "hp" : 2,
     "fragile" : true,
     "attack" : 0,
-    "is_blocking" : true
+    "blocking" : true
   },
 
   {
@@ -37,7 +37,7 @@
     "hp" : 1,
     "fragile" : false,
     "attack" : 0,
-    "is_blocking" : true,
+    "blocking" : true,
     "cost" : { "gold" : 2, "blue" : 0 }
   },
 
@@ -46,7 +46,7 @@
     "hp" : 3,
     "fragile" : false,
     "attack" : 0,
-    "is_blocking" : false,
+    "blocking" : false,
     "cost" : { "gold" : 5, "blue" : 0 }
   },
 
@@ -55,7 +55,7 @@
     "hp" : 4,
     "fragile" : false,
     "attack" : 1,
-    "is_blocking" : false,
+    "blocking" : false,
 
     "cost" : { "gold" : 5, "blue" : 0 }
   }
