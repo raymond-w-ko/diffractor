@@ -12,6 +12,27 @@
            (cons x (inner xs))))))
    coll))
 
+(defn print-board [board]
+  (let [units2 (->> (:units (get board 2))
+                    (map #(:name %))
+                    (interpose " ")
+                    (apply str))
+        units1 (->> (:units (get board 1))
+                    (map #(:name %))
+                    (interpose " ")
+                    (apply str))]
+    (println "----------------------------------------")
+    (println (:phase board))
+    ;(println "---")
+    (println "P2" units2)
+    ;(println "---")
+    (println "P1" units1)
+    ))
+
+(defn print-boards [boards]
+  (println "********************************************************************************")
+  (doall (map print-board boards)))
+
 (defn count-attack [board]
   (let [attacking-units (:units (get board (:current-player board)))]
     (reduce #(+ %1 (:attack %2)) 0 attacking-units)))

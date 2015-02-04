@@ -143,7 +143,7 @@
    })
 
 (defn expander [boards]
-  (pprint boards)
+  (print-boards boards)
   (let [phase (:phase (first boards))
         expander-fn (get phase-expander phase)]
     (if (nil? expander-fn)
